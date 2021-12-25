@@ -1,93 +1,49 @@
 const btn = document.querySelector("#btn");
-const spanA = document.querySelector("#spanA");
-const spanAC = document.querySelector("#spanAC");
-const spanB = document.querySelector("#spanB");
-const spanBC = document.querySelector("#spanBC");
-const spanC = document.querySelector("#spanC");
-const spanCC = document.querySelector("#spanCC");
+const NMWin = document.querySelector("#NMWinRate");
+const NMLose = document.querySelector("#NMLoseRate");
+const CNWin = document.querySelector("#CNWinRate");
+const CNLose = document.querySelector("#CNLoseRate");
+const NMPercent = document.querySelector("#NMPercent");
+const CNPercent = document.querySelector("#CNPercent");
 
-let counterOfA = 0;
-let counterOfAC = 0;
-let counterOfB = 0;
-let counterOfBC = 0;
-let counterOfC = 0;
-let counterOfCC = 0;
+let normal_win_rate = 0;
+let normal_lose_rate = 0;
+let change_win_rate = 0;
+let change_lose_rate = 0;
 
 const tryNum = 1000;
 
 btn.addEventListener('click', startexp);
 
 function startexp() {
-    counterOfA = 0;
-    counterOfAC = 0;
-    counterOfB = 0;
-    counterOfBC = 0;
-    counterOfC = 0;
-    counterOfCC = 0;
+    normal_win_rate = 0;
+    normal_lose_rate = 0;
+    change_win_rate = 0;
+    change_lose_rate = 0;
 
-    for(i=0;i<tryNum;i++) { //A선택후 바꾸지 않음
-        const randnum = Math.random();
-        if(randnum <= 0.3) {
-            addCounterOfA();
-        }
-    }
-    for(i=0;i<tryNum;i++) {
-        const randnum = Math.random();
-        if(randnum <= 0.6) {
-            addCounterOfAC();
-        }
-    }
-    for(i=0;i<tryNum;i++) { //B선택후 바꾸지 않음
-        const randnum = Math.random();
-        if(randnum <= 0.3) {
-            addcounterOfB();
-        }
-    }
-    for(i=0;i<tryNum;i++) {
-        const randnum = Math.random();
-        if(randnum <= 0.6) {
-            addcounterOfBC();
-        }
-    }
-    for(i=0;i<tryNum;i++) {
-        const randnum = Math.random();
-        if(randnum <= 0.3) {
-            addcounterOfC();
-        }
-    }
-    for(i=0;i<tryNum;i++) {
-        const randnum = Math.random();
-        if(randnum <= 0.6) {
-            addcounterOfCC();
-        }
-    }
-}
+    for (i=0;i<tryNum;i++) {
+        const reward = Math.floor(Math.random()*3+1);
+        const choice = Math.floor(Math.random()*3+1);
 
-/* function startexp() {
-    console.log("done");
-} */
+        let val = Math.floor(Math.random()*3+1);
+        while(reward == val || choice == val) {
+            val = Math.floor(Math.random()*3+1);
+        }
 
-function addCounterOfA() {
-    counterOfA++;
-    spanA.innerText = `A선택 후 바꾸지 않음 : ${tryNum}회 시도 중 ${counterOfA}회 성공`;
-}
-function addCounterOfAC() {
-    counterOfAC++;
-    spanAC.innerText = `A선택 후 바꿈 : ${tryNum}회 시도 중 ${counterOfAC}회 성공`;
-}
-function addcounterOfB() {
-    counterOfB++;
-    spanB.innerText = `B선택 후 바꾸지 않음 : ${tryNum}회 시도 중 ${counterOfB}회 성공`;
-}
-function addcounterOfBC() {
-    counterOfBC++;
-    spanBC.innerText = `B선택 후 바꿈 : ${tryNum}회 시도 중 ${counterOfBC}회 성공`;
-}
-function addcounterOfC() {
-    counterOfC++;
-    spanC.innerText = `C선택 후 바꾸지 않음 : ${tryNum}회 시도 중 ${counterOfC}회 성공`;
-}
-function addcounterOfCC() {
-    counterOfCC++;
-    spanCC.innerText = `C선택 후 바꿈 : ${tryNum}회 시도 중 ${counterOfCC}회 성공`;
+        if (reward == choice) normal_win_rate++;
+        else normal_lose_rate++;
+
+        let change = Math.floor(Math.random()*3+1);
+        while(val == change || choice == change) {
+            change = Math.floor(Math.random()*3+1);
+        }
+        if (reward == change) change_win_rate++;
+        else change_lose_rate++;
+    }
+    NMWin.innerText = `처음의 선택을 바꾸지 않고 당첨 : ${normal_win_rate} 회`;
+    NMLose.innerText = `처음의 선택을 바꾸지 않고 꽝 : ${normal_lose_rate} 회`;
+    NMPercent.innerText = `선택을 바꾸지 않고 당첨될 확률 : ${Math.floor((normal_win_rate / tryNum)*100)}%`;
+    CNWin.innerText = `처음의 선택을 바꿔서 당첨 : ${change_win_rate} 회`;
+    CNLose.innerText = `처음의 선택을 바꿔서 꽝 : ${change_lose_rate} 회`;
+    CNPercent.innerText = `선택을 바꿔서 당첨될 확률 : ${Math.floor((change_win_rate / tryNum)*100)}%`;
 }
